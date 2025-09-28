@@ -94,6 +94,15 @@ export default {
         permissions: ["system.requestlog"]
       },
       component: () => import("@/views/system/requestLog/index.vue")
+    },
+    {
+      path: "/system/demo-age",
+      name: "system_demo_age",
+      meta: {
+        title: "DEMO",
+        permissions: ["system.demoage"]
+      },
+      component: () => import("@/views/system/demoAge/index.vue")
     }
   ]
 } satisfies RouteConfigsTable;

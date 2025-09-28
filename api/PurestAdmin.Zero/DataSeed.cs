@@ -68,6 +68,7 @@ public class DataSeed : ISingletonDependency
             var systemRequestLogId = YitIdHelper.NextId();
             var systemNoticeId = YitIdHelper.NextId();
             var systemProfileSytemId = YitIdHelper.NextId();
+            var systemDemoAgeId = YitIdHelper.NextId(); // Thêm dòng này
             var workflowId = YitIdHelper.NextId();
             var definitionId = YitIdHelper.NextId();
             var myInstanceId = YitIdHelper.NextId();
@@ -125,6 +126,15 @@ public class DataSeed : ISingletonDependency
                 new FunctionEntity() { Id = systemProfileSytemId, ParentId = systemId, Name = "系统文件", Code = "system.profilesystem" },
                 new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemProfileSytemId, Name = "系统文件新增", Code = "system.profilesystem.add" },
                 new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemProfileSytemId, Name = "系统文件删除", Code = "system.profilesystem.delete" },
+
+                // Thêm DemoAge functions
+                // Xóa dòng: var systemDemoAgeId = YitIdHelper.NextId();
+                new FunctionEntity() { Id = systemDemoAgeId, ParentId = systemId, Name = "DEMO AGE", Code = "system.demoage" },
+                new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "Add", Code = "system.demoage.add" },
+                new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "Edit", Code = "system.demoage.edit" },
+                new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "View", Code = "system.demoage.view" },
+                new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "Delete", Code = "system.demoage.delete" },
+
                 new FunctionEntity() { Id = workflowId, Name = "工作流程", Code = "workflow" },
                 new FunctionEntity() { Id = definitionId, ParentId = workflowId, Name = "流程模版", Code = "workflow.definition" },
                 new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = definitionId, Name = "模版新增", Code = "workflow.definition.add" },
@@ -180,4 +190,70 @@ public class DataSeed : ISingletonDependency
         }
         Console.ReadLine();
     }
+public async Task AddDemoAgeFunctions()
+{
+    Console.WriteLine("Thêm DemoAge functions...");
+    
+    try
+    {
+        // Kiểm tra xem DemoAge functions đã tồn tại chưa
+        var existingFunction = await _db.Queryable<FunctionEntity>()
+            .Where(x => x.Code == "system.demoage")
+            .FirstAsync();
+            
+        if (existingFunction != null)
+        {
+            Console.WriteLine("DemoAge functions đã tồn tại");
+            return;
+        }
+
+        // Lấy systemId
+        var systemFunction = await _db.Queryable<FunctionEntity>()
+            .Where(x => x.Code == "system")
+            .FirstAsync();
+            
+        if (systemFunction == null)
+        {
+            Console.WriteLine("Không tìm thấy system function");
+            return;
+        }
+
+        var systemDemoAgeId = YitIdHelper.NextId();
+        
+        List<FunctionEntity> demoAgeFunctions = [
+            new FunctionEntity() { Id = systemDemoAgeId, ParentId = systemFunction.Id, Name = "DEMO AGE", Code = "system.demoage" },
+            new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "Add", Code = "system.demoage.add" },
+            new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "Edit", Code = "system.demoage.edit" },
+            new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "View", Code = "system.demoage.view" },
+            new FunctionEntity() { Id = YitIdHelper.NextId(), ParentId = systemDemoAgeId, Name = "Delete", Code = "system.demoage.delete" }
+        ];
+        
+        await _db.Insertable(demoAgeFunctions).ExecuteCommandAsync();
+        Console.WriteLine("Đã thêm DemoAge functions");
+        
+        // Gán quyền cho role "超级管理员" - SỬA LẠI PHẦN NÀY
+        var adminRole = await _db.Queryable<RoleEntity>()
+            .Where(x => x.Name == "超级管理员")
+            .FirstAsync();
+            
+        if (adminRole != null)
+        {
+            var roleFunctions = demoAgeFunctions.Select(x => new RoleFunctionEntity() 
+            { 
+                Id = YitIdHelper.NextId(), // THÊM DÒNG NÀY
+                FunctionId = x.Id, 
+                RoleId = adminRole.Id 
+            }).ToList();
+            
+            await _db.Insertable(roleFunctions).ExecuteCommandAsync();
+            Console.WriteLine("Đã gán quyền DemoAge cho role admin");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Lỗi khi thêm DemoAge functions: {ex.Message}");
+        throw;
+    }
+}
+
 }

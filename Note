@@ -1,0 +1,10 @@
+1. Tao database trong csdl
+2. Thuc thi lenh tao database tu csdl cung cap
+3. Chay lenh Zero de seed database(tao data, tao entity, tao service)
+4. Chay host
+5. Sau khi tao entity va service, nho dat api swagger de hien thi tren swagger
+6. De seed du lieu phat trien thi tao ham de add du lieu moi, vi du an la database first
+7. Tao route, view, api de hien thi tren frontend, chu y permision cho menu, crud thi moi thay
+8. Permission menu thi them vao purest_function va purest_role_function,purest_role
+
+

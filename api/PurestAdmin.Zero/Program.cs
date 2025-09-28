@@ -27,7 +27,9 @@ try
         {
             case "0":
                 var dataSeed = app.Services.GetRequiredService<DataSeed>();
-                await dataSeed.Initialization();
+                // Thay vì gọi await dataSeed.Initialization();
+                // Gọi:
+                await dataSeed.AddDemoAgeFunctions();
                 break;
             case "1":
                 var autoEntity = app.Services.GetRequiredService<AutoEntity>();
