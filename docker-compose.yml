@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: purest-admin-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: purest
+      MYSQL_ROOT_PASSWORD: Aa@123456
+      MYSQL_USER: purest
+      MYSQL_PASSWORD: purest123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./relationship-model/admin-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password --lower-case-table-names=1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Backend API
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: purest-admin-api
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Container
+      - ConnectionOptions__ConnectionString=Data Source=db;Database=purest;User ID=root;Password=Aa@123456;pooling=true;port=3306;sslmode=none;CharSet=utf8;AllowPublicKeyRetrieval=True;
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./api/PurestAdmin.Api.Host/appsettings.Container.json:/app/appsettings.Container.json
+
+volumes:
+  db_data:

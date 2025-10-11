@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { h, reactive, ref } from "vue";
-import { getPageList, deleteData } from "@/api/system/demoage";
+import { getPageList, deleteData } from "@/api/system/demo";
 import { ReVxeGrid } from "@/components/ReVxeTable";
 import { VxeButton, VxeUI } from "vxe-pc-ui";
 import CreateModal from "./CreateModal.vue";
@@ -8,16 +8,6 @@ import CreateModal from "./CreateModal.vue";
 const reVxeGridRef = ref();
 const columns = [
   { type: "checkbox", title: "", width: 60, align: "center" },
-  {
-    title: "Age",
-    field: "age",
-    minWidth: 150
-  },
-  {
-    title: "Birthday",
-    field: "birthday",
-    minWidth: 150
-  },
   {
     title: "Name",
     field: "name",
@@ -27,16 +17,9 @@ const columns = [
 const formRef = ref();
 
 const handleInitialFormParams = () => ({
-  birthday: "",
   name: ""
 });
 const formItems = [
-  {
-    field: "birthday",
-    title: "Birthday",
-    span: 6,
-    itemRender: { name: "$input", props: { placeholder: "Birthday" } }
-  },
   {
     field: "name",
     title: "Name",
@@ -86,10 +69,10 @@ const handleView = (record: Recordable) => {
   createModalRef.value.showViewModal(record);
 };
 const functions: Record<string, string> = {
-  add: "system.demoage.add",
-  edit: "system.demoage.edit",
-  view: "system.demoage.view",
-  delete: "system.demoage.delete"
+  add: "system.demo.add",
+  edit: "system.demo.edit",
+  view: "system.demo.view",
+  delete: "system.demo.delete"
 };
 </script>
 <template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, nextTick, reactive, h } from "vue";
 import { VxeModalInstance, VxeFormInstance, VxeFormPropTypes } from "vxe-pc-ui";
-import { getSingle, submitData } from "@/api/system/demoage";
+import { getSingle, submitData } from "@/api/system/demo";
 const emits = defineEmits<{ (e: "reload"): void }>();
 const vxeModalRef = ref<VxeModalInstance>();
 const modalOptions = reactive<{
@@ -20,41 +20,19 @@ const showModal = (title: string, canSubmit?: boolean): void => {
   modalOptions.canSubmit = canSubmit ?? true;
 };
 
-interface DemoageInput {
-  age: number;
-  birthday: string;
-  name: string;
+interface DemoInput {
   id: number;
+  name: string;
 }
 const formRef = ref<VxeFormInstance>();
 const defaultFormData = () => {
   return {
-    age: null,
-    birthday: "",
-    name: "",
-    id: null
+    id: null,
+    name: ""
   };
 };
-const formData = ref<DemoageInput>(defaultFormData());
+const formData = ref<DemoInput>(defaultFormData());
 const formItems = ref<VxeFormPropTypes.Items>([
-  {
-    field: "age",
-    title: "Age",
-    span: 24,
-    itemRender: {
-      name: "$input",
-      props: { type: "number", placeholder: "Please enter Age" }
-    }
-  },
-  {
-    field: "birthday",
-    title: "Birthday",
-    span: 24,
-    itemRender: {
-      name: "$input",
-      props: { placeholder: "Please enter Birthday" }
-    }
-  },
   {
     field: "name",
     title: "Name",
@@ -69,14 +47,14 @@ const formRules = ref<VxeFormPropTypes.Rules>({
 });
 
 const showAddModal = () => {
-  showModal(`Add Demoage`);
+  showModal(`Add Demo`);
   formData.value = defaultFormData();
   nextTick(() => {
     formRef.value.clearValidate();
   });
 };
 const showEditModal = (record: Recordable) => {
-  showModal(`Edit Demoage->${record.name || record.id}`);
+  showModal(`Edit Demo->${record.name || record.id}`);
   nextTick(async () => {
     formRef.value.clearValidate();
     getSingle(record.id).then((data: any) => {
@@ -85,7 +63,7 @@ const showEditModal = (record: Recordable) => {
   });
 };
 const showViewModal = (record: Recordable) => {
-  showModal(`View Demoage->${record.name || record.id}`, false);
+  showModal(`View Demo->${record.name || record.id}`, false);
   nextTick(async () => {
     formRef.value.clearValidate();
     getSingle(record.id).then((data: any) => {

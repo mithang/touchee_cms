@@ -1,11 +1,28 @@
-1. Tao database trong csdl
-2. Thuc thi lenh tao database tu csdl cung cap admin-mysql.sql
-3. Chay lenh Zero de seed database(tao data, tao entity, tao service)
+I. Setup
+1. Tao ten database trong csdl
+2. Insert cau truc database tu admin-mysql.sql
+3. Chay lenh Zero de seed data vao database voi yeu cau la so 0. 
 4. Chay host
-5. Sau khi tao entity va service, nho dat api swagger de hien thi tren swagger
-6. De seed du lieu phat trien thi tao ham de add du lieu moi, vi du an la database first
-7. Tao route, view, api de hien thi tren frontend, chu y permision cho menu, crud thi moi thay
-8. Permission menu thi them vao purest_function va purest_role_function,purest_role chi can khai bao trong DataSeed la no tu 
-dong add vao database, vui long chay 
 
+II. Gencode
+1. Tao table trong database
+2. Chay lenh trong Zero
+3. Se thay cac table tao duoc sap xep theo ngay tao, chon table dong
+4. He thong se tao entity, service.Sau khi tao entity va service, nho dat api swagger de hien thi tren swagger
+5. De seed du lieu phan quyen cho bang vua tao thi tao ham tham khao AddDemoAgeFunctions
+6. He thong view, api de hien thi tren frontend, chu y permision cho menu, crud thi moi thay
+7. Router thi can phai manual
+Vao router, dinh nghia de hien thi chuc nang:
+ {
+      path: "/system/demo-age",
+      name: "system_demo_age",
+      meta: {
+        title: "DEMO",
+        permissions: ["system.demoage"]
+      },
+      component: () => import("@/views/system/demoAge/index.vue")
+    }
+
+8. Neu muon dung tay insert thi can vao Permission menu thi them vao purest_function va purest_role_function,purest_role chi can khai bao trong DataSeed la no tu 
+dong add vao database, vui long chay 
 

@@ -16,7 +16,7 @@ try
 {
     while (true)
     {
-        string[] operatorArr = ["初始化种子数据", "Entity代码生成", "Service代码生成", "工作流测试"];
+        string[] operatorArr = ["初始化种子数据", "Entity代码生成", "Service代码生成", "Tao DemoAge", "工作流测试", "Frontend代码生成"];
         Console.WriteLine("------请选择您要做的事-------");
         for (int i = 0; i < operatorArr.Length; i++)
         {
@@ -27,9 +27,9 @@ try
         {
             case "0":
                 var dataSeed = app.Services.GetRequiredService<DataSeed>();
-                // Thay vì gọi await dataSeed.Initialization();
+                await dataSeed.Initialization();
                 // Gọi:
-                await dataSeed.AddDemoAgeFunctions();
+                // await dataSeed.AddDemoAgeFunctions();
                 break;
             case "1":
                 var autoEntity = app.Services.GetRequiredService<AutoEntity>();
@@ -38,6 +38,14 @@ try
             case "2":
                 var autoService = app.Services.GetRequiredService<AutoService>();
                 autoService.Initialization();
+                break;
+            case "3":
+                var dataSeed1 = app.Services.GetRequiredService<DataSeed>();
+                await dataSeed1.AddDemoAgeFunctions();
+                break;
+            case "5":
+                var autoFrontend = app.Services.GetRequiredService<AutoFrontend>();
+                autoFrontend.Initialization();
                 break;
             default:
                 Console.WriteLine("未进行任何操作！");
