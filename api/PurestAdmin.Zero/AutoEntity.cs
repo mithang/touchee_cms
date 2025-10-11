@@ -1,4 +1,4 @@
-﻿// Copyright © 2023-present https://github.com/dymproject/purest-admin作者以及贡献者
+﻿﻿// Copyright © 2023-present https://github.com/dymproject/purest-admin作者以及贡献者
 
 using System.Globalization;
 using System.Text;
@@ -46,6 +46,11 @@ public class AutoEntity : ISingletonDependency
         Console.WriteLine($"您的类名为：{className}");
         //创建实体
         var basePath = AppDomain.CurrentDomain.BaseDirectory;
+        
+        // Update path to generate entities in the correct Entity folder
+        var projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".."));
+        var entityPath = Path.Combine(projectRoot, "PurestAdmin.SqlSugar", "Entity");
+        
         //命名空间
         StringBuilder sb = new("namespace PurestAdmin.SqlSugar.Entity;\r\n");
 
@@ -101,7 +106,7 @@ public class AutoEntity : ISingletonDependency
 
         sb.Append("\r\n}");
 
-        var entityPath = Path.Combine(basePath, "Entity");
+        // Use the corrected entity path
         Directory.CreateDirectory(entityPath);
         var fullPath = Path.Combine(entityPath, $"{className}Entity.cs");
         using StreamWriter sw = new(fullPath);

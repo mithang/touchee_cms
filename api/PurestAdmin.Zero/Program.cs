@@ -1,4 +1,4 @@
-﻿// Copyright © 2023-present https://github.com/dymproject/purest-admin作者以及贡献者
+﻿﻿﻿﻿// Copyright © 2023-present https://github.com/dymproject/purest-admin作者以及贡献者
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -47,6 +47,7 @@ try
                 var autoFrontend = app.Services.GetRequiredService<AutoFrontend>();
                 autoFrontend.Initialization();
                 break;
+           
             default:
                 Console.WriteLine("未进行任何操作！");
                 break;

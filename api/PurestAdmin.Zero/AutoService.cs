@@ -1,4 +1,4 @@
-﻿// Copyright © 2023-present https://github.com/dymproject/purest-admin作者以及贡献者
+﻿﻿// Copyright © 2023-present https://github.com/dymproject/purest-admin作者以及贡献者
 
 using System.Globalization;
 
@@ -53,10 +53,14 @@ public class AutoService(ISqlSugarClient db) : ISingletonDependency
         var inputProps = Common.GetInputDtoString(columns);
 
 
-        var basePath = AppDomain.CurrentDomain.BaseDirectory;
-        var servicePath = Path.Combine(basePath, "Services", $"{className}Services");
+        // Update path to generate services in the correct Application folder
+        var projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".."));
+        var servicePath = Path.Combine(projectRoot, "PurestAdmin.Application", $"{className}Services");
         var dtoPath = Path.Combine(servicePath, "Dtos");
         Directory.CreateDirectory(dtoPath);
+
+        // Get the template path correctly
+        var basePath = AppDomain.CurrentDomain.BaseDirectory;
 
         //生成GetPagedListInput
         using (var reader = new StreamReader(Path.Combine(basePath, "Templates", "GetPagedListInputTemplate.txt")))

@@ -1,10 +1,12 @@
-﻿
-using @NameSpace@.Dtos;
+﻿using @NameSpace@.Dtos;
+using PurestAdmin.Multiplex.Contracts.Consts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace @NameSpace@;
 /// <summary>
 /// @ClassName@服务
 /// </summary>
+[ApiExplorerSettings(GroupName = ApiExplorerGroupConst.SYSTEM)]
 public class @ClassName@Service(ISqlSugarClient db) : ApplicationService
 {
     private readonly ISqlSugarClient _db = db;
