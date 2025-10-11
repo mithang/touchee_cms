@@ -1,5 +1,5 @@
 1. Tao database trong csdl
-2. Thuc thi lenh tao database tu csdl cung cap
+2. Thuc thi lenh tao database tu csdl cung cap admin-mysql.sql
 3. Chay lenh Zero de seed database(tao data, tao entity, tao service)
 4. Chay host
 5. Sau khi tao entity va service, nho dat api swagger de hien thi tren swagger
